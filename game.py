@@ -5,13 +5,6 @@ import copy
 
 class Game:
     
-    wins = [0, 0, 0, 0, 0]
-    seconds = [0, 0, 0, 0, 0]
-    # Board board
-    # int[] diceRemaining
-    # int[] ststPayout
-    # int[] ltstPayout
-    
     def __init__(self, posParam, tieParam, drParam = [0, 1, 2, 3, 4], stParam = [5, 5, 5, 5, 5], ltParam = [8, 8]):
         self.board = board.Board(posParam, tieParam) # the board for the game
         self.diceRemaining = drParam # the dice remaining in the pyramid

@@ -34,6 +34,7 @@ class Board:
     def move(self, piece, amount):
         # get list of starting pieces that are moving
         movingList = self.getMovingList(piece)
+        #movingList = self.findPiecesAtPos(self.pos[piece])
         # get list of ending pieces
         finalPieces = self.findPiecesAtPos(self.pos[piece] + amount)
         for x in range (len(movingList)):
@@ -44,18 +45,25 @@ class Board:
                 self.tie[movingList[x]] = self.tie[movingList[x]] - self.tie[piece]
             self.tie[piece] = 0
         else:
-            for x in range (len(movingList)):
-                self.tie[movingList[x]] = self.tie[movingList[x]] + 1 + self.tie[finalPieces[-1]] - self.tie[piece]
-            self.tie[piece] = self.tie[finalPieces[-1]] + 1    
+            if (amount > 0):
+                for x in range (len(movingList)):
+                    self.tie[movingList[x]] = self.tie[movingList[x]] + 1 + self.tie[finalPieces[-1]] - self.tie[piece]
+                self.tie[piece] = self.tie[finalPieces[-1]] + 1   
+            else:
+                for x in range (len(movingList)):
+                    print()
+                print(movingList)
+                print(finalPieces)
     
-    # given a piece, get the pieces that would move with it
+    # given a piece, get the pieces that are above it
     def getMovingList(self, piece):
         piece_pos = self.pos[piece]
         piece_tie = self.tie[piece]
+        piecesAtPos = self.findPiecesAtPos(piece_pos)
         movingList = []
-        for x in range (len(self.pos)):
-            if (self.pos[x]==piece_pos and self.tie[x] > piece_tie):
-                movingList.append(x)
+        for x in range(len(piecesAtPos)):
+            if (self.tie[piecesAtPos[x]] > piece_tie):
+                movingList.append(piecesAtPos[x])
         return movingList  
     
     # check if there is a winner and return the winner
