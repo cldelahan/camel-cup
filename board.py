@@ -19,6 +19,7 @@ class Board:
     def getTie(self):
         return copy.deepcopy(self.tie)
         
+    
     # returns all pieces at a position from down to up
     def findPiecesAtPos(self, position):
         piecesAtPos = []
@@ -30,41 +31,52 @@ class Board:
             piecesAtPos[x] = piecesAtPos[x] % 10
         return piecesAtPos
     
+   
     # moves pieces amount of steps
     def move(self, piece, amount):
+        
         # get list of starting pieces that are moving
         movingList = self.getMovingList(piece)
-        #movingList = self.findPiecesAtPos(self.pos[piece])
+        
         # get list of ending pieces
         finalPieces = self.findPiecesAtPos(self.pos[piece] + amount)
+        
+        # update position of moving pieces
         for x in range (len(movingList)):
             self.pos[movingList[x]] = self.pos[movingList[x]] + amount
-        self.pos[piece] = self.pos[piece] + amount
+
+        # if there are no pieces at the end
         if (len(finalPieces) == 0):
             for x in range (len(movingList)):
-                self.tie[movingList[x]] = self.tie[movingList[x]] - self.tie[piece]
-            self.tie[piece] = 0
+                self.tie[movingList[x]] = x
+        # if there are pieces at the end
         else:
+            # moving forwards
             if (amount > 0):
                 for x in range (len(movingList)):
-                    self.tie[movingList[x]] = self.tie[movingList[x]] + 1 + self.tie[finalPieces[-1]] - self.tie[piece]
-                self.tie[piece] = self.tie[finalPieces[-1]] + 1   
-            else:
+                    self.tie[movingList[x]] = self.tie[movingList[x]] + 1 + self.tie[finalPieces[-1]] - self.tie[piece]  
+            # moving backwards
+            elif (amount < 0):
+                for x in range (len(finalPieces)):
+                    self.tie[finalPieces[x]] += len(movingList)
                 for x in range (len(movingList)):
-                    print()
-                print(movingList)
-                print(finalPieces)
+                    self.tie[movingList[x]] = x 
     
-    # given a piece, get the pieces that are above it
+    
+    # given a piece, get all pieces that are moving (at its level or above)
     def getMovingList(self, piece):
         piece_pos = self.pos[piece]
         piece_tie = self.tie[piece]
         piecesAtPos = self.findPiecesAtPos(piece_pos)
+        print("Pieces at Position")
+        print(piecesAtPos)
         movingList = []
         for x in range(len(piecesAtPos)):
-            if (self.tie[piecesAtPos[x]] > piece_tie):
+            # >= so the passed piece is part of the moving list.
+            if (self.tie[piecesAtPos[x]] >= piece_tie):
                 movingList.append(piecesAtPos[x])
         return movingList  
+    
     
     # check if there is a winner and return the winner
     # if no winner, return -1
@@ -77,6 +89,7 @@ class Board:
                         return y
                 return x
         return -1
+    
     
     # return camel in the lead
     def getLeader(self):
@@ -92,6 +105,7 @@ class Board:
                     maxCamel = x
         return maxCamel    
              
+    
     # check for second place and return who is in second
     def getSecond(self):
         score = [0, 0, 0, 0, 0]
@@ -112,6 +126,7 @@ class Board:
                 secScore =score[x]
         return secScorePos
     
+    
     # return camel in last place
     def getLast(self):
         minPos = 100
@@ -126,6 +141,7 @@ class Board:
                     minCamel = x
         return minCamel    
     
+   
     # tostring()
     def __str__(self):
         output = ""
