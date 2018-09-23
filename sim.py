@@ -9,6 +9,7 @@ class Sim:
         self.backupGame = self.deepCopy(initGame) # copy of backup game to revert to
         self.simGame = self.deepCopy(initGame) # "liquid" game showing changes
         
+    # deep copies game
     def deepCopy(self, g1):
         boardCopy = g1.copyBoard()
         boardPos = boardCopy.getPos()
@@ -18,14 +19,19 @@ class Sim:
         ltPayout = g1.getLTPayout()
         return game.Game(boardPos, boardTie, diceRemaining, stPayout, ltPayout)
 
+    
+    # resets the simulation to the backup game
     def resetGame(self):
         self.simGame = self.deepCopy(self.backupGame)
+        
     
-    def randRoll(self): # roll a dice of diceRemaining randomly
+    # rolls a dice of diceRemaining randomly
+    def randRoll(self):
         diceRem = self.simGame.getDiceRem()
         randomDice = diceRem[random.randrange(0, len(diceRem))]
         randomValue = random.randrange(1, 4)
         self.simGame.roll(randomDice, randomValue)
+    
     
     # simulate the game numSims times
     def simLongTerm(self, numSims = 10000):
@@ -65,6 +71,8 @@ class Sim:
         # firstPercent, evWin, lastPercent, evLose
         return evWin, evLose   
     
+    
+    # simulate the game short term
     def simShortTerm(self, numSims = 10000):
         timesFirst = [0, 0, 0, 0, 0]
         timesSecond = [0, 0, 0, 0, 0]        
@@ -97,5 +105,7 @@ class Sim:
         
         return ev
     
+    
+    # tostring()
     def __str__(self):
         return self.simGame.__str__()

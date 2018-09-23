@@ -13,12 +13,17 @@ class Board:
         self.pos = posParam
         self.tie = tieParam   
         
+    
+    # get Position instance variable
     def getPos(self):
         return copy.deepcopy(self.pos)
     
+    
+    # get Tie instance variable
     def getTie(self):
         return copy.deepcopy(self.tie)
         
+    
     
     # returns all pieces at a position from down to up
     def findPiecesAtPos(self, position):
