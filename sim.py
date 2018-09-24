@@ -2,6 +2,7 @@
 # simulates best moves
 import game
 import random
+import copy
 
 
 class Sim:
@@ -24,13 +25,13 @@ class Sim:
     def resetGame(self):
         self.simGame = self.deepCopy(self.backupGame)
         
-    
     # rolls a dice of diceRemaining randomly
     def randRoll(self):
         diceRem = self.simGame.getDiceRem()
         randomDice = diceRem[random.randrange(0, len(diceRem))]
         randomValue = random.randrange(1, 4)
         self.simGame.roll(randomDice, randomValue)
+    
     
     
     # simulate the game numSims times
@@ -106,6 +107,57 @@ class Sim:
         return ev
     
     
+    
+    
+    # returns now-filled square 
+    def getSquareFilled(self, board1, board2):
+        for i in board2:
+            if (not(i in board1)):
+                return i
+    
+    
+    # simulate what squares get most landed on
+    def simDesertTiles(self, numSims = 500):
+       
+        totalCompletedSimulations = 0
+        
+        emptySquares = []
+        timeLanded = []
+        
+        gameBoard = self.simGame.board
+        # get all the empty squares on the board
+        for i in range (1, 17, 1):
+            # if there are no pieces at this position
+            if (len(gameBoard.findPiecesAtPos(i)) == 0):
+                emptySquares.append(i)
+                timeLanded.append(0)
+        
+        for i in range(numSims):    
+            # roll until there are no more die (moment over)
+            while(len(self.simGame.diceRemaining) != 0):
+                # copy old board
+                oldBoard = copy.deepcopy(self.simGame.board.pos)
+                self.randRoll()
+                # copy new board
+                newBoard = copy.deepcopy(self.simGame.board.pos)
+                # get the value of the square that has been filled
+                movedSquare = self.getSquareFilled(oldBoard, newBoard)
+                # if the landed square was empty before, increment timeLanded
+                if (movedSquare in emptySquares):
+                    timeLanded[emptySquares.index(movedSquare)] =  timeLanded[emptySquares.index(movedSquare)] + 1
+            # reset game after moment completed
+            self.resetGame()
+            totalCompletedSimulations += 1
+        
+        ev = []
+        for i in range(len(timeLanded)):
+            ev.append(timeLanded[i] / totalCompletedSimulations)
+                    
+        return ev
+                
+           
+        
+        
     # tostring()
     def __str__(self):
         return self.simGame.__str__()

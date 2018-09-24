@@ -7,11 +7,15 @@ class Board:
     # orange, yellow, green, blue, white
     pos = [0, 0, 0, 0, 0] # position of the five camels
     tie = [0, 0, 0, 0, 0] # tie values for the five camels
+    forwardsTiles = []
+    backwardsTiles = []
     
     # constructor setting pos and tie
     def __init__(self, posParam, tieParam):
         self.pos = posParam
-        self.tie = tieParam   
+        self.tie = tieParam
+        self.forwardsTiles = []
+        self.backwardsTiles = []
         
     
     # get Position instance variable
@@ -73,14 +77,13 @@ class Board:
         piece_pos = self.pos[piece]
         piece_tie = self.tie[piece]
         piecesAtPos = self.findPiecesAtPos(piece_pos)
-        print("Pieces at Position")
-        print(piecesAtPos)
         movingList = []
         for x in range(len(piecesAtPos)):
             # >= so the passed piece is part of the moving list.
             if (self.tie[piecesAtPos[x]] >= piece_tie):
                 movingList.append(piecesAtPos[x])
         return movingList  
+    
     
     
     # check if there is a winner and return the winner
