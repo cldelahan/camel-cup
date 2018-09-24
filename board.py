@@ -7,15 +7,15 @@ class Board:
     # orange, yellow, green, blue, white
     pos = [0, 0, 0, 0, 0] # position of the five camels
     tie = [0, 0, 0, 0, 0] # tie values for the five camels
-    forwardsTiles = []
-    backwardsTiles = []
+    forwardTiles = []
+    backwardTiles = []
     
     # constructor setting pos and tie
-    def __init__(self, posParam, tieParam):
+    def __init__(self, posParam, tieParam, fDT = [], bDT = []):
         self.pos = posParam
         self.tie = tieParam
-        self.forwardsTiles = []
-        self.backwardsTiles = []
+        self.forwardTiles = copy.deepcopy(fDT)
+        self.backwardTiles = copy.deepcopy(bDT)
         
     
     # get Position instance variable
@@ -27,7 +27,27 @@ class Board:
     def getTie(self):
         return copy.deepcopy(self.tie)
         
+    def setForwardTiles(self, i):
+        if (not(i in self.pos) and not (i+1 in self.backwardTiles) and not (i-1 in self.backwardTiles)):
+            self.forwardTiles.append(i)
+        else:
+            raise IOError ("Cannot place Desert Tile at that position")
+        
+    def setBackwardTiles(self, i):
+        if (not(i in self.pos) and not (i+1 in self.forwardTiles) and not (i-1 in self.forwardTiles)):
+            self.backwardTiles.append(i)
+        else:
+            raise IOError ("Cannot place Desert Tile at that position")
+        
+    def getForwardTiles(self):
+        return copy.deepcopy(self.forwardTiles)
     
+    def getBackwardTiles(self):
+        return copy.deepcopy(self.backwardTiles)
+    
+    def clearDesertTiles(self):
+        self.backwardTiles = []
+        self.forwardTiles = []
     
     # returns all pieces at a position from down to up
     def findPiecesAtPos(self, position):
@@ -70,6 +90,19 @@ class Board:
                     self.tie[finalPieces[x]] += len(movingList)
                 for x in range (len(movingList)):
                     self.tie[movingList[x]] = x 
+                    
+        # checking for pieces on desert tiles
+        for i in range (len(self.forwardTiles)):
+            # if the camels moved onto the forward tile
+            if (self.forwardTiles[i] in self.pos):
+                camelNumber = self.findPiecesAtPos(self.forwardTiles[i])[0]
+                self.move(camelNumber, 1)
+        
+        for i in range (len(self.backwardTiles)):
+            # if the camels moved onto the backward tile
+            if (self.backwardTiles[i] in self.pos):
+                camelNumber = self.findPiecesAtPos(self.backwardTiles[i])[0]
+                self.move(camelNumber, -1)
     
     
     # given a piece, get all pieces that are moving (at its level or above)
@@ -158,5 +191,11 @@ class Board:
         output += "\n"
         for x in range (len(self.tie)):
             output += str(self.tie[x]) + " "
-        output += "\n"
+        output += "\nForward DT\n"
+        for x in range (len(self.forwardTiles)):
+            output += str(self.forwardTiles[x]) + " "
+        output += "\nBackward DT\n"
+        for x in range (len(self.backwardTiles)):
+            output += str(self.backwardTiles[x]) + " "
+        output += "\n"        
         return output

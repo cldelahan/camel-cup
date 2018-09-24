@@ -5,8 +5,8 @@ import copy
 
 class Game:
     
-    def __init__(self, posParam, tieParam, drParam = [0, 1, 2, 3, 4], stParam = [5, 5, 5, 5, 5], ltParam = [8, 8]):
-        self.board = board.Board(posParam, tieParam) # the board for the game
+    def __init__(self, posParam, tieParam, fDT = [], bDT = [], drParam = [0, 1, 2, 3, 4], stParam = [5, 5, 5, 5, 5], ltParam = [8, 8]):
+        self.board = board.Board(posParam, tieParam, fDT, bDT) # the board for the game
         self.diceRemaining = drParam # the dice remaining in the pyramid
         self.stPayout = stParam # the short term stPayout remaining in each game moment
         self.ltPayout = ltParam # long term stPayout, separated in long-term win and long-term lose
@@ -14,7 +14,9 @@ class Game:
     def copyBoard(self):
         pos = self.board.getPos()
         tie = self.board.getTie()
-        return board.Board(pos, tie)
+        fDT = self.board.getForwardTiles()
+        bDT = self.board.getBackwardTiles()
+        return board.Board(pos, tie, fDT, bDT)
 
     def getDiceRem(self):
         return copy.deepcopy(self.diceRemaining)
@@ -27,6 +29,9 @@ class Game:
         
     def resetDiceRem(self):
         self.diceRemaining = [0, 1, 2, 3, 4]
+        
+    def resetDesertTiles(self):
+        self.board.clearDesertTiles()
         
     def removeDie(self, die):
         self.diceRemaining.pop(self.diceRemaining.index(die))
@@ -57,7 +62,13 @@ class Game:
         elif (self.ltPayout[winOrLose] == 3):
             self.ltPayout[winOrLose] = 2
         elif (self.ltPayout[winOrLose] == 2):
-            self.ltPayout[winOrLose] = 1         
+            self.ltPayout[winOrLose] = 1   
+            
+    def placeBackwardTile(self, i):
+        self.board.setBackwardTiles(i)
+
+    def placeForwardTile(self, i):
+        self.board.setForwardTiles(i)
     
     def __str__(self):
         output = "Board\n"

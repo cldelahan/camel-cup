@@ -1,12 +1,18 @@
 import game
 import sim
 
-g1 = game.Game([1, 2, 3, 2, 2], [0, 1, 0, 2, 0])
-g1.betLong(0)
-g1.diceRemaining = [1]
+g1 = game.Game([5, 2, 2, 2, 2], [0, 2, 1, 0, 3])
+
 print(sim.Sim(g1).simShortTerm())
-
-
+g1.placeBackwardTile(4)
+g1.placeBackwardTile(3)
+print(sim.Sim(g1).simShortTerm())
+g1.resetDesertTiles()
+print(sim.Sim(g1).simShortTerm())
+g1.placeForwardTile(4)
+print(sim.Sim(g1).simShortTerm())
+g1.placeForwardTile(3)
+print(sim.Sim(g1).simShortTerm())
 
 
 

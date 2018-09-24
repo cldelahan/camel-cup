@@ -15,10 +15,12 @@ class Sim:
         boardCopy = g1.copyBoard()
         boardPos = boardCopy.getPos()
         boardTie = boardCopy.getTie()
+        fDT = boardCopy.getForwardTiles()
+        bDT = boardCopy.getBackwardTiles()
         diceRemaining = g1.getDiceRem()
         stPayout = g1.getSTPayout()
         ltPayout = g1.getLTPayout()
-        return game.Game(boardPos, boardTie, diceRemaining, stPayout, ltPayout)
+        return game.Game(boardPos, boardTie, fDT, bDT, diceRemaining, stPayout, ltPayout)
 
     
     # resets the simulation to the backup game
@@ -45,6 +47,7 @@ class Sim:
             self.randRoll()
             if (len(self.simGame.getDiceRem()) == 0):
                 self.simGame.resetDiceRem()
+                self.simGame.resetDesertTiles()
             if (gameBoard.checkWinner() != -1):
                 # incrementing the wins
                 timesFirst[gameBoard.getLeader()] = timesFirst[gameBoard.getLeader()] + 1
