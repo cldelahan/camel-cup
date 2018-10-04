@@ -154,7 +154,7 @@ class Sim:
         for i in range(len(timeLanded)):
             ev.append(timeLanded[i] / totalCompletedSimulations)
                     
-        return ev
+        return ev, emptySquares
 
         
     # tostring()
