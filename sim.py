@@ -108,9 +108,7 @@ class Sim:
             ev[x] = round(firstPercent[x] * self.simGame.getSTPayout()[x] + secondPercent[x] * 1 - (( 1 - firstPercent[x] - secondPercent[x]) * 1), 3)
         
         return ev
-    
-    
-    
+
     
     # returns now-filled square 
     def getSquareFilled(self, board1, board2):
@@ -157,9 +155,7 @@ class Sim:
             ev.append(timeLanded[i] / totalCompletedSimulations)
                     
         return ev
-                
-           
-        
+
         
     # tostring()
     def __str__(self):
