@@ -28,13 +28,14 @@ class Board:
         return copy.deepcopy(self.tie)
         
     def setForwardTiles(self, i):
-        if (not(i in self.pos) and not (i+1 in self.backwardTiles) and not (i-1 in self.backwardTiles)):
+        # the forward tile is not adjacent to another tile
+        if (not(i in self.pos) and not (i+1 in self.backwardTiles) and not (i-1 in self.backwardTiles) and not(i in self.backwardTiles)):
             self.forwardTiles.append(i)
         else:
             raise IOError ("Cannot place Desert Tile at that position")
         
     def setBackwardTiles(self, i):
-        if (not(i in self.pos) and not (i+1 in self.forwardTiles) and not (i-1 in self.forwardTiles)):
+        if (not(i in self.pos) and not (i+1 in self.forwardTiles) and not (i-1 in self.forwardTiles) and not (i in self.forwardTiles)):
             self.backwardTiles.append(i)
         else:
             raise IOError ("Cannot place Desert Tile at that position")
