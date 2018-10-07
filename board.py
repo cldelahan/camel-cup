@@ -185,17 +185,12 @@ class Board:
    
     # tostring()
     def __str__(self):
-        output = ""
-        for x in range (len(self.pos)):
-            output += str(self.pos[x]) + " "
-        output += "\n"
-        for x in range (len(self.tie)):
-            output += str(self.tie[x]) + " "
-        output += "\nForward DT\n"
-        for x in range (len(self.forwardTiles)):
-            output += str(self.forwardTiles[x]) + " "
-        output += "\nBackward DT\n"
-        for x in range (len(self.backwardTiles)):
-            output += str(self.backwardTiles[x]) + " "
-        output += "\n"        
+        output = "Board\n"
+        output += str(self.pos) + "\n"
+        output += str(self.tie) + "\n"
+        output += "\nForward DT: "
+        output += str(self.forwardTiles)
+        output += "\nBackward DT: "
+        output += str(self.backwardTiles)
+        output += "\n"      
         return output
