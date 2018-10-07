@@ -29,13 +29,16 @@ class Board:
         
     def setForwardTiles(self, i):
         # the forward tile is not adjacent to another tile
-        if (not(i in self.pos) and not (i+1 in self.backwardTiles) and not (i-1 in self.backwardTiles) and not(i in self.backwardTiles)):
+        totalTiles = self.forwardTiles + self.backwardTiles
+        if (not(i in self.pos) and not (i+1 in totalTiles) and not (i-1 in totalTiles) and not(i in totalTiles)):
             self.forwardTiles.append(i)
         else:
             raise IOError ("Cannot place Desert Tile at that position")
         
     def setBackwardTiles(self, i):
-        if (not(i in self.pos) and not (i+1 in self.forwardTiles) and not (i-1 in self.forwardTiles) and not (i in self.forwardTiles)):
+        # cannot place a backward tile adjacent to another tile
+        totalTiles = self.forwardTiles + self.backwardTiles
+        if (not(i in self.pos) and not (i+1 in totalTiles) and not (i-1 in totalTiles) and not (i in totalTiles)):
             self.backwardTiles.append(i)
         else:
             raise IOError ("Cannot place Desert Tile at that position")
