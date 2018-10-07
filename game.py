@@ -55,6 +55,7 @@ class Game:
             self.stPayout[color] = 0
             
     def betLong(self, winOrLose):
+        # 0 is win, 1 is lose
         if (self.ltPayout[winOrLose] == 8):
             self.ltPayout[winOrLose] = 5
         elif (self.ltPayout[winOrLose] == 5):
@@ -71,13 +72,13 @@ class Game:
         self.board.setForwardTiles(i)
     
     def __str__(self):
-        output = "Board\n"
+        output = ""
         output += self.board.__str__()
-        output += "Dice Remaining\n"
+        output += "Dice Remaining: "
         output += str(self.diceRemaining)
-        output += "\nST Payout\n"
+        output += "\nST Payout: "
         output += str(self.stPayout)
-        output += "\nLT Payout\n"
+        output += "\nLT Payout: "
         output += str(self.ltPayout)        
         output += "\n"
         return output
