@@ -52,6 +52,7 @@ def playGame(g1):
             diceNum = -1
             # making sure can move this color
             while (not(diceNum in g1.diceRemaining)):
+                print("0-Orange, 1-Yellow, 2-Green, 3-Blue, 4-White")
                 diceNum = int(input("Enter Color Number: "))
             value = -1
             # make sure rolling only 1 or 3
@@ -67,6 +68,7 @@ def playGame(g1):
             colorNumber = -1
             # while the colorNumber is a valid dice and there is a short-term card to take
             while (colorNumber > 4 or colorNumber < 0 or g1.getSTPayout()[colorNumber] == 0):
+                print("0-Orange, 1-Yellow, 2-Green, 3-Blue, 4-White")
                 colorNumber = int(input("Enter Color Number: "))
             g1.betShort(colorNumber)
         elif (movement == 3):
