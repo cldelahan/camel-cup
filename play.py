@@ -13,6 +13,17 @@ def getRecomendedMovement(g1):
     maxLTW = max(longTermEVW)
     maxLTL = max(longTermEVL)
     maxDT = max(desertTileEV)
+    '''
+    print("Short Term")
+    print(shortTermEV.index(maxST), max(shortTermEV))
+    print("Desert Tile")
+    print(desertTileEV.index(maxDT), max(desertTileEV))
+    print("Long Term Winner")
+    print(longTermEVW.index(maxLTW), maxLTW)
+    print("Long Term Loser")
+    print(longTermEVL.index(maxLTL), maxLTL)
+    print()
+    '''
     # printing recomendations
     if (maxST == max(maxST, maxLTW, maxLTL, maxDT, 1.0)):
         index = shortTermEV.index(maxST)
