@@ -23,7 +23,7 @@ run.py offers a game-side companion that utilizes the previous files to give the
 
 
 
-Previous Summary from Website
+## Previous Summary from Website
 
 Motive: Recently, I have become really interested in "solving" games - or rather - trying to design a strategy to play a certain game perfectly. This stems primarily from studying blackjack and card counting with friends, and has inspired to to try and solve Texas Hold'em. However, this is no easy feat, and en route, I have decided to "solve" a popular game that my family plays frequently
 
